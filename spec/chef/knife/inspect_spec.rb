@@ -21,7 +21,9 @@ RSpec.describe Chef::Knife::Inspect do
           HealthInspector::Checklists::DataBags => true,
           HealthInspector::Checklists::DataBagItems => true,
           HealthInspector::Checklists::Environments => true,
-          HealthInspector::Checklists::Roles => true }.each do |checklist, status|
+          HealthInspector::Checklists::Roles => true,
+          HealthInspector::Checklists::Nodes => true
+        }.each do |checklist, status|
           expect(checklist).to receive(:run).and_return status
         end
 
@@ -37,7 +39,9 @@ RSpec.describe Chef::Knife::Inspect do
           HealthInspector::Checklists::DataBags => false,
           HealthInspector::Checklists::DataBagItems => true,
           HealthInspector::Checklists::Environments => true,
-          HealthInspector::Checklists::Roles => true }.each do |checklist, status|
+          HealthInspector::Checklists::Roles => true,
+          HealthInspector::Checklists::Nodes => true
+        }.each do |checklist, status|
           expect(checklist).to receive(:run).and_return status
         end
 
