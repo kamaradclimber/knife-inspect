@@ -5,7 +5,7 @@ module HealthInspector
   module Checklists
     class Node < Pairing
       include ExistenceValidations
-      include JsonValidations
+      include AttributeValidations
     end
 
     class Nodes < Base
@@ -28,19 +28,20 @@ module HealthInspector
           case filename
           when /\.json$/
             node = Chef::JSONCompat.from_json(IO.read(filename))
+            name = node['name']
           when /\.rb$/
             node = Chef::Node.new
             node.from_file(filename)
-            node = node.to_hash
+            name = node.name
           end
-          h[node['name']] = node
+          h[name] = node
           h
         end
       end
 
       def load_item_from_server(name)
         node = Chef::Node.load(name)
-        node.to_hash
+        node
       rescue
         nil
       end

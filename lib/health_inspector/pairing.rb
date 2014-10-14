@@ -90,6 +90,15 @@ module HealthInspector
     end
   end
 
+  module AttributeValidations
+    def validate_normal_attributes
+      return if server.nil? || local.nil?
+      return unless server.respond_to?(:normal) and normal.respond_to?(:normal)
+      differences = hash_diff(server.normal, local.normal)
+      errors.add differences unless differences.empty?
+    end
+  end
+
   module JsonValidations
     def validate_items_are_the_same
       return if server.nil? || local.nil?
