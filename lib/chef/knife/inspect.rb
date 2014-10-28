@@ -3,7 +3,7 @@ require 'chef/knife'
 class Chef
   class Knife
     class Inspect < Knife
-      CHECKLISTS = %w(Cookbooks DataBags DataBagItems Environments Roles)
+      CHECKLISTS = %w(Cookbooks DataBags DataBagItems Environments Roles Nodes)
 
       # :nocov:
       deps do

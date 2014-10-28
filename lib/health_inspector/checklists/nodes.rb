@@ -1,17 +1,18 @@
-require 'chef/role'
+require 'chef/node'
+require 'yajl'
 
 module HealthInspector
   module Checklists
-    class Role < Pairing
+    class Node < Pairing
       include ExistenceValidations
-      include JsonValidations
+      include AttributeValidations
     end
 
-    class Roles < Base
-      title 'roles'
+    class Nodes < Base
+      title 'nodes'
 
       def load_item(name)
-        Role.new(@context,
+        Node.new(@context,
                  name: name,
                  server: load_item_from_server(name),
                  local: local_items[name]
@@ -19,28 +20,28 @@ module HealthInspector
       end
 
       def server_items
-        @server_items ||= Chef::Role.list
+        @server_items ||= Chef::Node.list
       end
 
       def local_items
-        @local_items ||= Dir["#{@context.repo_path}/roles/**/*.{rb,json,js}"].inject({}) do |h, filename|
+        @local_items ||= Dir["#{@context.repo_path}/nodes/**/*.{rb,json}"].inject({}) do |h, filename|
           case filename
           when /\.json$/
-            role = Chef::JSONCompat.from_json(IO.read(filename))
+            node = Chef::JSONCompat.from_json(IO.read(filename))
+            name = node['name']
           when /\.rb$/
-            role = Chef::Role.new
-            role.from_file(filename)
-            role = role.to_hash
+            node = Chef::Node.new
+            node.from_file(filename)
+            name = node.name
           end
-          h[role['name']] = role
+          h[name] = node
           h
         end
-        @local_items
       end
 
       def load_item_from_server(name)
-        role = Chef::Role.load(name)
-        role.to_hash
+        node = Chef::Node.load(name)
+        node
       rescue
         nil
       end

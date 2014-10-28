@@ -17,14 +17,14 @@ RSpec.describe HealthInspector::Checklists::Roles do
         'role_two'         => 'url',
         'role_from_subdir' => 'url'
       )
-      expect(checklist.server_items.sort)
+      expect(checklist.server_items.keys.sort)
         .to eq %w(role_from_subdir role_one role_two)
     end
   end
 
   describe '#local_items' do
     it 'returns a list of roles from the chef repo' do
-      expect(checklist.local_items.sort)
+      expect(checklist.local_items.keys.sort)
         .to eq %w(role_from_subdir role_one role_two)
     end
   end

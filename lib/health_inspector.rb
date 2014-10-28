@@ -10,6 +10,7 @@ require 'health_inspector/checklists/data_bags'
 require 'health_inspector/checklists/data_bag_items'
 require 'health_inspector/checklists/environments'
 require 'health_inspector/checklists/roles'
+require 'health_inspector/checklists/nodes'
 require 'chef/rest'
 require 'chef/version'
 
