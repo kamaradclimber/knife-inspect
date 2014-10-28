@@ -2,6 +2,7 @@
 require 'health_inspector/version'
 require 'health_inspector/color'
 require 'health_inspector/context'
+require 'health_inspector/validation_result'
 require 'health_inspector/pairing'
 require 'health_inspector/runner'
 require 'health_inspector/checklists/base'

@@ -28,6 +28,7 @@ module HealthInspector
 
     def validate
       methods.grep(/^validate_/).each { |meth| send(meth) }
+      HealthInspector::ValidationResult.new @name, @errors
     end
 
     def hash_diff(original, other)
