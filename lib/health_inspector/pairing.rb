@@ -46,6 +46,8 @@ module HealthInspector
         stringify_hash_keys(item)
       elsif item.is_a?(Array)
         item.map { |array_item| stringify_item(array_item) }
+      elsif item.is_a?(Symbol)
+        item.to_s
       else # must be a string
         item
       end
