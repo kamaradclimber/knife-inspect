@@ -52,21 +52,22 @@ module HealthInspector
           load_validate(name)
         end
 
-        !results.include?(false)
+        results.each do |res|
+          print_validation_result res
+        end
+
+        !results.any? { |res| not res.success? }
       end
 
       def validate_item(item)
-        item.validate
-        failures = item.errors
+        return item.validate
+      end
 
-        if failures.empty?
-          print_success(item.name)
-
-          true
+      def print_validation_result(res)
+        if res.success?
+          print_success(res.item_name)
         else
-          print_failures(item.name, failures)
-
-          false
+          print_failures(res.item_name, res.failures)
         end
       end
 
